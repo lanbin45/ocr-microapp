@@ -4,25 +4,28 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var MpvuePlugin = require('webpack-mpvue-asset-plugin')
+const MpvueEntry = require('mpvue-entry')
 var glob = require('glob')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function getEntry (rootSrc, pattern) {
-  var files = glob.sync(path.resolve(rootSrc, pattern))
-  return files.reduce((res, file) => {
-    var info = path.parse(file)
-    var key = info.dir.slice(rootSrc.length + 1) + '/' + info.name
-    res[key] = path.resolve(file)
-    return res
-  }, {})
-}
+// function getEntry (rootSrc, pattern) {
+//   var files = glob.sync(path.resolve(rootSrc, pattern))
+//   return files.reduce((res, file) => {
+//     var info = path.parse(file)
+//     var key = info.dir.slice(rootSrc.length + 1) + '/' + info.name
+//     res[key] = path.resolve(file)
+//     return res
+//   }, {})
+// }
 
-const appEntry = { app: resolve('./src/main.js') }
-const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.js')
-const entry = Object.assign({}, appEntry, pagesEntry)
+const entry = MpvueEntry.getEntry('./src/router/routes.js')
+
+// const appEntry = { app: resolve('./src/main.js') }
+// const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.js')
+// const entry = Object.assign({}, appEntry, pagesEntry)
 
 module.exports = {
   // 如果要自定义生成的 dist 目录里面的文件路径，
@@ -41,7 +44,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue': 'mpvue',
-      '@': resolve('src')
+      '@': resolve('src'),
+      flyio: 'flyio/dist/npm/wx',
     },
     symlinks: false,
     aliasFields: ['mpvue', 'weapp', 'browser'],
@@ -103,6 +107,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new MpvuePlugin()
+    new MpvuePlugin(),
+    new MpvueEntry()
   ]
 }
