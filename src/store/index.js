@@ -24,16 +24,21 @@ const store = new Vuex.Store({
       },
       width: 0,
       height: 0
-    }
+    },
+    cardImageFile: [],
+    deviceInfo: {},
+    requestId: '',
+    email: '',
+    excelData: []
   },
   mutations: {
     testCount (state) {
       state.count++
     },
-    saveUserInfo (state, data) {
+    setUserInfo (state, data) {
       state.userInfo = Object.assign({}, data)
     },
-    saveFormImage (state, data) {
+    setFormImage (state, data) {
       if (data.tempFilePaths) {
         state.formImageFile.tempFilePaths = data.tempFilePaths
       }
@@ -45,6 +50,23 @@ const store = new Vuex.Store({
         state.formImageFile.height = data.height
         state.formImageFile.width = data.width
       }
+    },
+    setDeviceInfo (state, data) {
+      state.deviceInfo = Object.assign({}, data)
+    },
+    setRequestId (state, data) {
+      state.requestId = data
+    },
+    setEmail (state, data) {
+      state.email = data
+    },
+    setCardImage (state, data) {
+      state.cardImageFile = []
+      state.cardImageFile = [...data]
+    },
+    setExcelData (state, data) {
+      state.excelData = []
+      state.excelData = [...data]
     }
   },
   actions: {
@@ -52,10 +74,25 @@ const store = new Vuex.Store({
       commit('testCount', 1)
     },
     saveUser ({commit}, userInfo) {
-      commit('saveUserInfo', userInfo)
+      commit('setUserInfo', userInfo)
     },
     saveFormImage ({commit}, formImage) {
-      commit('saveFormImage', formImage)
+      commit('setFormImage', formImage)
+    },
+    saveDeviceInfo ({ commit }, deviceInfo) {
+      commit('setDeviceInfo', deviceInfo)
+    },
+    saveRequestId ({commit}, requestId) {
+      commit('setRequestId', requestId)
+    },
+    saveEmail ({commit}, email) {
+      commit('setEmail', email)
+    },
+    saveCardImage ({commit}, image) {
+      commit('setCardImage', image)
+    },
+    saveExcelData ({commit}, exceldata) {
+      commit('setExcelData', exceldata)
     }
   }
 })

@@ -29,5 +29,17 @@ module.exports = [
       config: {
         navigationBarTitleText: '编辑图片'
       }
+    }, {
+      path: '/pages/form/result',
+      name: 'Formresult',
+      config: {
+        navigationBarTitleText: '获取识别结果'
+      }
+    }, {
+      path: '/pages/card/result',
+      name: 'Cardresult',
+      config: {
+        navigationBarTitleText: '获取识别结果'
+      }
     }
   ]
